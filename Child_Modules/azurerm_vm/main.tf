@@ -17,15 +17,36 @@ resource "azurerm_network_interface" "nic" {
   }
 }
 
+data "azurerm_key_vault" "kv" {
+    for_each = var.vm
+  name = each.value.kv_name
+  resource_group_name = each.value.resource_group_name
+}
+
+resource "azurerm_key_vault_secret" "vm_username" {
+   for_each = var.vm
+  name = "vmUsername"
+  value = each.value.admin_username
+  key_vault_id = data.azurerm_key_vault.kv[each.key].id
+}
+
+resource "azurerm_key_vault_secret" "vm_password" {
+   for_each = var.vm
+  name = "vmPassword"
+  value = each.value.admin_password
+  key_vault_id = data.azurerm_key_vault.kv[each.key].id
+}
+
+
 resource "azurerm_linux_virtual_machine" "vm" {
    for_each = var.vm
   name = each.value.vm_name
   location = each.value.location
   resource_group_name = each.value.resource_group_name
   disable_password_authentication = false
-  admin_username = ""
-  admin_password = ""
-  size = ""
+  admin_username = azurerm_key_vault_secret.vm_username
+  admin_password = azurerm_key_vault_secret.vm_password
+  size = each.value.size
   network_interface_ids = [azurerm_network_interface.nic[each.key].id]
   os_disk {
     caching = "ReadWrite"
