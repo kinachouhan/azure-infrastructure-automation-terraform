@@ -25,5 +25,6 @@ subnet = {
         name = "subnet-1"
         resource_group_name = "rg-1"
         address_prefixes = ["10.0.1.0/24"]
+        virtual_netowrk_name = "vnet-1"
     }
 }
