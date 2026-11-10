@@ -7,3 +7,6 @@ variable "subnet" {}
 variable "kv" {}
 
 variable "vm" {}
+
+
+variable "bastion"{}

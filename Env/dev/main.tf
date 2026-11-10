@@ -21,3 +21,10 @@ module "vm" {
   source     = "../../Child_Modules/azurerm_vm"
   vm         = var.vm
 }
+
+
+module "bastion" {
+  depends_on = [module.vnet]
+  source  = "../../Child_Modules/azurerm_bastion"
+  bastion = var.bastion
+}
