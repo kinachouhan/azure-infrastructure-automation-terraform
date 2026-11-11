@@ -28,3 +28,10 @@ module "bastion" {
   source  = "../../Child_Modules/azurerm_bastion"
   bastion = var.bastion
 }
+
+
+module "nat" {
+  depends_on = [ module.rgs , module.vnet ]
+  source = "../../Child_Modules/azurerm_nat_gateway"
+  nat = var.nat
+}

@@ -109,3 +109,28 @@ bastion = {
     public_ip_name       = "axion-dev-bastion-pip"
   }
 }
+
+
+
+nat = {
+  nat1 = {
+    name                = "axion-dev-nat"
+    location            = "Central India"
+    resource_group_name = "axion-dev-rg"
+    sku_name             = "Standard"
+    idle_timeout         = 10
+
+    public_ip = {
+      name              = "axion-dev-nat-pip"
+      allocation_method = "Static"
+      sku               = "Standard"
+    }
+
+    virtual_network_name = "axion-dev-vnet"
+
+    subnet_names = [
+      "frontend-subnet",
+      "backend-subnet"
+    ]
+  }
+}

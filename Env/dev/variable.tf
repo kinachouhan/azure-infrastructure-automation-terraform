@@ -10,3 +10,5 @@ variable "vm" {}
 
 
 variable "bastion"{}
+
+variable "nat" {}
