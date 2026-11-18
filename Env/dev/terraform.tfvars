@@ -48,6 +48,12 @@ subnet = {
     address_prefixes     = ["10.0.3.0/26"]
     virtual_network_name = "axion-dev-vnet"
   }
+  appgateway = {
+    name                 = "appgateway-subnet"
+    resource_group_name  = "axion-dev-rg"
+    virtual_network_name = "axion-dev-vnet"
+    address_prefixes     = ["10.0.4.0/24"]
+  }
 }
 
 # ---------------- KEY VAULT ----------------
@@ -64,36 +70,36 @@ kv = {
 
 vm = {
   frontend = {
-    vm_name                = "axion-frontend-vm"
-    nic_name               = "axion-frontend-nic"
-    subnet_name            = "frontend-subnet"
-    virtual_network_name   = "axion-dev-vnet"
-    resource_group_name    = "axion-dev-rg"
-    location               = "Central India"
+    vm_name              = "axion-frontend-vm"
+    nic_name             = "axion-frontend-nic"
+    subnet_name          = "frontend-subnet"
+    virtual_network_name = "axion-dev-vnet"
+    resource_group_name  = "axion-dev-rg"
+    location             = "Central India"
 
     kv_name                = "axiondevkv2026"
     kv_resource_group_name = "axion-dev-rg"
 
     admin_username = "kinaadmin"
-     admin_password = "KinaVm@2026Secure"
+    admin_password = "KinaVm@2026Secure"
     size           = "Standard_D2als_v6"
   }
 
   backend = {
-    vm_name                = "axion-backend-vm"
-    nic_name               = "axion-backend-nic"
-    subnet_name            = "backend-subnet"
-    virtual_network_name   = "axion-dev-vnet"
-    resource_group_name    = "axion-dev-rg"
-    location               = "Central India"
+    vm_name              = "axion-backend-vm"
+    nic_name             = "axion-backend-nic"
+    subnet_name          = "backend-subnet"
+    virtual_network_name = "axion-dev-vnet"
+    resource_group_name  = "axion-dev-rg"
+    location             = "Central India"
 
     kv_name                = "axiondevkv2026"
     kv_resource_group_name = "axion-dev-rg"
 
     admin_username = "kinaadmin"
     admin_password = "Backend@Vm2026Secure"
-   
-    size           = "Standard_D2als_v6"
+
+    size = "Standard_D2als_v6"
   }
 }
 
@@ -117,8 +123,8 @@ nat = {
     name                = "axion-dev-nat"
     location            = "Central India"
     resource_group_name = "axion-dev-rg"
-    sku_name             = "Standard"
-    idle_timeout         = 10
+    sku_name            = "Standard"
+    idle_timeout        = 10
 
     public_ip = {
       name              = "axion-dev-nat-pip"
@@ -132,5 +138,26 @@ nat = {
       "frontend-subnet",
       "backend-subnet"
     ]
+  }
+}
+
+
+appgw = {
+  appgw1 = {
+    name                = "axion-dev-appgw"
+    location            = "Central India"
+    resource_group_name = "axion-dev-rg"
+
+    subnet_name          = "appgateway-subnet"
+    virtual_network_name = "axion-dev-vnet"
+    backend_private_ip   = "10.0.1.4"
+
+    sku_name = "Standard_v2"
+    tier     = "Standard_v2"
+    capacity = 2
+
+    public_ip_name    = "axion-dev-appgw-pip"
+    allocation_method = "Static"
+    public_ip_sku     = "Standard"
   }
 }

@@ -9,6 +9,8 @@ variable "kv" {}
 variable "vm" {}
 
 
-variable "bastion"{}
+variable "bastion" {}
 
 variable "nat" {}
+
+variable "appgw" {}

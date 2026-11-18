@@ -25,13 +25,19 @@ module "vm" {
 
 module "bastion" {
   depends_on = [module.vnet]
-  source  = "../../Child_Modules/azurerm_bastion"
-  bastion = var.bastion
+  source     = "../../Child_Modules/azurerm_bastion"
+  bastion    = var.bastion
 }
 
 
 module "nat" {
-  depends_on = [ module.rgs , module.vnet ]
-  source = "../../Child_Modules/azurerm_nat_gateway"
-  nat = var.nat
+  depends_on = [module.rgs, module.vnet]
+  source     = "../../Child_Modules/azurerm_nat_gateway"
+  nat        = var.nat
+}
+
+module "application_gateway" {
+  depends_on = [module.vnet]
+  source     = "../../Child_Modules/azurerm_application_gateway"
+  appgw      = var.appgw
 }
