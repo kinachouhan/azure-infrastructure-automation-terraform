@@ -161,3 +161,99 @@ appgw = {
     public_ip_sku     = "Standard"
   }
 }
+
+
+nsg = {
+  frontend = {
+    name                 = "axion-frontend-nsg"
+    location             = "Central India"
+    resource_group_name  = "axion-dev-rg"
+    subnet_name          = "frontend-subnet"
+    virtual_network_name = "axion-dev-vnet"
+
+    rules = {
+      allow_appgw_http = {
+        name                       = "Allow-AppGW-HTTP"
+        priority                   = 100
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "80"
+        source_address_prefix      = "10.0.4.0/24"
+        destination_address_prefix = "*"
+      }
+
+      allow_bastion_ssh = {
+        name                       = "Allow-Bastion-SSH"
+        priority                   = 110
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "10.0.3.0/26"
+        destination_address_prefix = "*"
+      }
+
+      deny_other_vnet_inbound = {
+        name                       = "Deny-Other-VNet-Inbound"
+        priority                   = 4000
+        direction                  = "Inbound"
+        access                     = "Deny"
+        protocol                   = "*"
+        source_port_range          = "*"
+        destination_port_range     = "*"
+        source_address_prefix      = "VirtualNetwork"
+        destination_address_prefix = "*"
+      }
+    }
+  }
+
+  backend = {
+    name                 = "axion-backend-nsg"
+    location             = "Central India"
+    resource_group_name  = "axion-dev-rg"
+    subnet_name          = "backend-subnet"
+    virtual_network_name = "axion-dev-vnet"
+
+    rules = {
+      allow_frontend_api = {
+        name                       = "Allow-Frontend-API"
+        priority                   = 100
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "8000"
+        source_address_prefix      = "10.0.1.0/24"
+        destination_address_prefix = "*"
+      }
+
+      allow_bastion_ssh = {
+        name                       = "Allow-Bastion-SSH"
+        priority                   = 110
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "10.0.3.0/26"
+        destination_address_prefix = "*"
+      }
+
+      deny_other_vnet_inbound = {
+        name                       = "Deny-Other-VNet-Inbound"
+        priority                   = 4000
+        direction                  = "Inbound"
+        access                     = "Deny"
+        protocol                   = "*"
+        source_port_range          = "*"
+        destination_port_range     = "*"
+        source_address_prefix      = "VirtualNetwork"
+        destination_address_prefix = "*"
+      }
+    }
+  }
+}
+

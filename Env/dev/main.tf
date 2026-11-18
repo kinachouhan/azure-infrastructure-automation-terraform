@@ -41,3 +41,10 @@ module "application_gateway" {
   source     = "../../Child_Modules/azurerm_application_gateway"
   appgw      = var.appgw
 }
+
+module "nsg" {
+   depends_on = [ module.vnet ]
+   source = "../../Child_Modules/azurerm_nsg"
+   nsg = var.nsg
+}
+

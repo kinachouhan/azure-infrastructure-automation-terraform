@@ -14,3 +14,5 @@ variable "bastion" {}
 variable "nat" {}
 
 variable "appgw" {}
+
+variable "nsg" {}
