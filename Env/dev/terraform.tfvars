@@ -320,3 +320,13 @@ nsg = {
   }
 }
 
+kv_secret_values = {
+  frontend-username = "kinaadmin"
+  frontend-password = "YOUR_FRONTEND_PASSWORD"
+
+  backend-username = "kinaadmin"
+  backend-password = "YOUR_BACKEND_PASSWORD"
+
+  database-username = "kinaadmin"
+  database-password = "YOUR_DATABASE_PASSWORD"
+}
