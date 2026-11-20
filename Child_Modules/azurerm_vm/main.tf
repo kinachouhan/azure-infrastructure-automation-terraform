@@ -34,23 +34,19 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = each.value.kv_resource_group_name
 }
 
-# ---------------- VM USERNAME SECRET ----------------
-
-resource "azurerm_key_vault_secret" "vm_username" {
+# Read username from Key Vault
+data "azurerm_key_vault_secret" "vm_username" {
   for_each = var.vm
 
   name         = "${each.key}-username"
-  value        = each.value.admin_username
   key_vault_id = data.azurerm_key_vault.kv[each.key].id
 }
 
-# ---------------- VM PASSWORD SECRET ----------------
-
-resource "azurerm_key_vault_secret" "vm_password" {
+# Read password from Key Vault
+data "azurerm_key_vault_secret" "vm_password" {
   for_each = var.vm
 
   name         = "${each.key}-password"
-  value        = each.value.admin_password
   key_vault_id = data.azurerm_key_vault.kv[each.key].id
 }
 
@@ -64,8 +60,9 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name = each.value.resource_group_name
 
   size                            = each.value.size
-  admin_username                  = azurerm_key_vault_secret.vm_username[each.key].value
-  admin_password                  = azurerm_key_vault_secret.vm_password[each.key].value
+
+  admin_username = data.azurerm_key_vault_secret.vm_username[each.key].value
+admin_password = data.azurerm_key_vault_secret.vm_password[each.key].value
   disable_password_authentication = false
 
   network_interface_ids = [

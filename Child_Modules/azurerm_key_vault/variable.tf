@@ -1,1 +1,3 @@
 variable "kv" {}
+
+variable "secrets" {}

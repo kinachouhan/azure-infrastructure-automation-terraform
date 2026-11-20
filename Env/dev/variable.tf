@@ -16,3 +16,5 @@ variable "nat" {}
 variable "appgw" {}
 
 variable "nsg" {}
+
+variable "kv_secret_values" {}

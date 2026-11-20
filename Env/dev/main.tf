@@ -10,10 +10,13 @@ module "vnet" {
   subnet     = var.subnet
 }
 
+
 module "kv" {
   depends_on = [module.rgs]
   source     = "../../Child_Modules/azurerm_key_vault"
-  kv         = var.kv
+
+  kv      = var.kv
+  secrets = var.kv_secret_values
 }
 
 module "vm" {
@@ -21,6 +24,8 @@ module "vm" {
   source     = "../../Child_Modules/azurerm_vm"
   vm         = var.vm
 }
+
+
 
 
 module "bastion" {
